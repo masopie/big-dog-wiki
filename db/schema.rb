@@ -17,12 +17,13 @@ ActiveRecord::Schema.define(version: 20160329215003) do
   enable_extension "plpgsql"
 
   create_table "articles", force: :cascade do |t|
-    t.integer  "creator_id"
+    t.integer  "editor_id",  null: false
+    t.string   "title",      null: false
+    t.string   "content",    null: false
+    t.boolean  "published",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  add_index "articles", ["creator_id"], name: "index_articles_on_creator_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",       null: false
@@ -32,12 +33,10 @@ ActiveRecord::Schema.define(version: 20160329215003) do
 
   create_table "categorizations", force: :cascade do |t|
     t.integer  "category_id", null: false
-    t.integer  "version_id"
+    t.integer  "article_id",  null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
-
-  add_index "categorizations", ["version_id"], name: "index_categorizations_on_version_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.string   "content"
@@ -49,12 +48,10 @@ ActiveRecord::Schema.define(version: 20160329215003) do
 
   create_table "sources", force: :cascade do |t|
     t.string   "url",        null: false
-    t.integer  "version_id"
+    t.integer  "article_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  add_index "sources", ["version_id"], name: "index_sources_on_version_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username",                           null: false
